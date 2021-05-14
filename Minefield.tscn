@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="Minefield" type="Control"]
+anchor_left = -0.0011348
+anchor_right = 0.998865
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://FieldButton.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.470588, 0.470588, 0.470588, 1 )
+
+[node name="FieldButton" type="Button"]
+anchor_left = 0.000148835
+anchor_right = 0.0401488
+anchor_bottom = 0.053
+margin_right = -3.8147e-06
+margin_bottom = 0.199999
+flat = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_top = 0.00372088
+anchor_bottom = 0.00372088
+margin_top = -0.119068
+margin_right = 32.0
+margin_bottom = 31.8809
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 2.88093, 3 )
+centered = false
+region_rect = Rect2( 0, 0, 32, 32 )
