@@ -9,13 +9,13 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.470588, 0.470588, 0.470588, 1 )
 
-[node name="FieldButton" type="Button"]
+[node name="FieldButton" type="Control"]
 anchor_left = 0.000148835
 anchor_right = 0.0401488
 anchor_bottom = 0.053
 margin_right = -3.8147e-06
 margin_bottom = 0.199999
-flat = true
+rect_min_size = Vector2( 32, 32 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

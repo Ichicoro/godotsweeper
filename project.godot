@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Control",
+"class": "Fieldbox",
+"language": "GDScript",
+"path": "res://FieldButton.gd"
+} ]
+_global_script_class_icons={
+"Fieldbox": ""
+}
+
 [application]
 
 config/name="Godotsweeper"
