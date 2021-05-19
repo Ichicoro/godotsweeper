@@ -21,11 +21,18 @@ _global_script_class_icons={
 [application]
 
 config/name="Godotsweeper"
+run/main_scene="res://Minefield.tscn"
 config/icon="res://icon.png"
 
 [display]
 
-window/size/width=800
+window/size/width=1066
+window/dpi/allow_hidpi=true
+window/handheld/orientation="sensor_portrait"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/ResolutionManager/plugin.cfg", "res://addons/repl/plugin.cfg", "res://addons/viewport-spy/plugin.cfg" )
 
 [input_devices]
 

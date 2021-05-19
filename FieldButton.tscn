@@ -1,13 +1,32 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://FieldButton.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.658824, 0.658824, 0.658824, 1 )
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color( 0.470588, 0.470588, 0.470588, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.690196, 0, 0, 0.552941 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.470588, 0.470588, 0.470588, 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+hinting = 0
+font_path = "res://assets/fonts/Renner_ 500 Medium.otf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 17
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 3 )
 
 [node name="FieldButton" type="Control"]
 anchor_left = 0.000148835
@@ -22,17 +41,35 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-anchor_top = 0.00372088
-anchor_bottom = 0.00372088
-margin_top = -0.119068
-margin_right = 32.0
-margin_bottom = 31.8809
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Panel2" type="Panel" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClosebombsAmount" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 4 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 position = Vector2( 2.88093, 3 )
 centered = false
 region_rect = Rect2( 0, 0, 32, 32 )
