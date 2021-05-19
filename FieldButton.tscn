@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://FieldButton.gd" type="Script" id=1]
+[ext_resource path="res://src/FieldButton.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.658824, 0.658824, 0.658824, 1 )
@@ -30,9 +30,9 @@ font_data = SubResource( 3 )
 
 [node name="FieldButton" type="Control"]
 anchor_left = 0.000148835
-anchor_right = 0.0401488
+anchor_right = 0.03
 anchor_bottom = 0.053
-margin_right = -3.8147e-06
+margin_right = 0.178656
 margin_bottom = 0.199999
 rect_min_size = Vector2( 32, 32 )
 script = ExtResource( 1 )

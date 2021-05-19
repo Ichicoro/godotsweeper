@@ -1,32 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/fonts/QTBeckman.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://SpanLimiter.gd" type="Script" id=2]
+[ext_resource path="res://src/SpanLimiter.gd" type="Script" id=2]
 [ext_resource path="res://assets/ui.res" type="Theme" id=3]
 [ext_resource path="res://assets/test.svg" type="Texture" id=4]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.554688, 0.225342, 0.225342, 1 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 80
-outline_color = Color( 0, 0, 0, 0.333333 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFontData" id=3]
-font_path = "res://assets/fonts/Renner_ 500 Medium.otf"
-
-[sub_resource type="DynamicFont" id=4]
-size = 32
-font_data = SubResource( 3 )
-
-[sub_resource type="StyleBoxLine" id=5]
-color = Color( 0, 0, 0, 0.0941176 )
-thickness = 2
-
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=1]
 resource_name = "MainMenuLogoBounce"
 length = 8.0
 loop = true
@@ -43,12 +22,96 @@ tracks/0/keys = {
 "values": [ Vector2( 75, 150 ), Vector2( 75, 100 ), Vector2( 75, 150 ) ]
 }
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="Animation" id=11]
+resource_name = "ShowPlayOverlay"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayOverlay/Panel:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayOverlay/Panel2:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 3.73213, 0.189 ),
+"update": 0,
+"values": [ Vector2( 1066, 0 ), Vector2( 622, 0 ) ]
+}
+
+[sub_resource type="GDScript" id=2]
 script/source = "extends AnimationPlayer
 
 func _ready():
-	self.play(\"MainMenuLogoBounce\")
+    self.play(\"MainMenuLogoBounce\")
 "
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.552941, 0.223529, 0.223529, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 80
+outline_color = Color( 0, 0, 0, 0.333333 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/fonts/Renner_ 500 Medium.otf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+font_data = SubResource( 5 )
+
+[sub_resource type="GDScript" id=12]
+script/source = "extends Button
+
+onready var animPlayer: AnimationPlayer = $\"/root/TitleScreen/UIAnimationPlayer\"
+
+func _pressed() -> void:
+    $\"/root/TitleScreen/PlayOverlay\".visible = true
+    animPlayer.play(\"ShowPlayOverlay\")
+"
+
+[sub_resource type="StyleBoxLine" id=7]
+color = Color( 0, 0, 0, 0.0941176 )
+thickness = 2
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends LinkButton
+
+func _pressed() -> void:
+    OS.shell_open(\"https://marte.dev\")
+"
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0, 0, 0, 0.498039 )
+
+[sub_resource type="GDScript" id=13]
+script/source = "extends Panel
+
+onready var animPlayer: AnimationPlayer = $\"/root/TitleScreen/UIAnimationPlayer\"
+
+func _gui_input(event: InputEvent) -> void:
+    if event.is_pressed():
+        animPlayer.play_backwards(\"ShowPlayOverlay\")
+        yield(get_tree().create_timer(0.5), \"timeout\")
+        $\"/root/TitleScreen/PlayOverlay\".visible = false
+"
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.552941, 0.223529, 0.223529, 1 )
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -59,10 +122,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BounceAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/MainMenuLogoBounce = SubResource( 1 )
+anims/ShowPlayOverlay = SubResource( 11 )
+script = SubResource( 2 )
+
+[node name="UIAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/ShowPlayOverlay = SubResource( 11 )
+
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -72,6 +143,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 49.0
 margin_top = 48.0
+custom_constants/margin_right = 444
+custom_constants/margin_left = 5
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -79,7 +152,8 @@ __meta__ = {
 MAX_SPAN = 573
 
 [node name="Control" type="Control" parent="MarginContainer"]
-margin_right = 1017.0
+margin_left = 5.0
+margin_right = 573.0
 margin_bottom = 552.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -92,7 +166,7 @@ margin_left = 1.0
 margin_right = -216.0
 margin_bottom = -441.0
 size_flags_horizontal = 8
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.556863 )
 custom_constants/shadow_offset_x = 3
@@ -114,22 +188,23 @@ __meta__ = {
 }
 
 [node name="PlayButton" type="Button" parent="MarginContainer/Control/VBoxContainer"]
-margin_right = 963.0
+margin_right = 514.0
 margin_bottom = 41.0
 focus_mode = 0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_hover = Color( 0.109804, 0.109804, 0.109804, 1 )
 custom_colors/font_color_pressed = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
 text = "Play"
 flat = true
 align = 0
+script = SubResource( 12 )
 
 [node name="Panel" type="Panel" parent="MarginContainer/Control/VBoxContainer"]
 margin_top = 45.0
-margin_right = 963.0
+margin_right = 514.0
 margin_bottom = 45.0
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="VersionLabel" type="Label" parent="."]
 anchor_left = 1.0
@@ -137,23 +212,27 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -142.0
-margin_top = -36.0
+margin_top = -42.0
 margin_right = -11.0
-margin_bottom = -11.0
+margin_bottom = -17.0
 text = "version 1.0 - beta"
 align = 2
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VersionLabel2" type="Label" parent="."]
+[node name="WatermonkeLink" type="LinkButton" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 11.0
-margin_top = -36.0
-margin_right = 142.0
-margin_bottom = -11.0
+margin_top = -30.0
+margin_right = 224.0
+margin_bottom = -13.0
+rect_pivot_offset = Vector2( 0, 17 )
 text = "© WaterMonke Studios, 2021"
+underline = 1
+script = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -166,6 +245,7 @@ anchor_bottom = 1.0
 margin_left = -337.0
 margin_top = -385.0
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -176,11 +256,12 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -262.0
-margin_top = -234.793
+margin_top = -235.0
 margin_right = 18.0
-margin_bottom = 44.733
+margin_bottom = 44.526
 grow_horizontal = 0
 rect_rotation = -18.3053
+rect_scale = Vector2( 1.47828, 1.47828 )
 rect_pivot_offset = Vector2( 140, 140 )
 texture = ExtResource( 4 )
 expand = true
@@ -189,6 +270,49 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/MainMenuLogoBounce = SubResource( 6 )
-script = SubResource( 7 )
+[node name="PlayOverlay" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="PlayOverlay"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 9 )
+script = SubResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="Panel" parent="PlayOverlay"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 443.999
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayOverlay/Panel2"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -444.0
+margin_top = 48.0
+margin_right = -45.0
+margin_bottom = 239.0
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.556863 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+text = "Play"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
